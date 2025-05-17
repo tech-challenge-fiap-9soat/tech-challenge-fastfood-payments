@@ -1,6 +1,0 @@
-br\com\fastfood\payments\usecases\impl\PagamentoServiceImplTest.class
-br\com\fastfood\payments\infra\controller\PagamentoControllerIT.class
-br\com\fastfood\payments\infra\controller\StatusPagamentoWebhookControllerIT.class
-br\com\fastfood\payments\bdd\CucumberTest.class
-br\com\fastfood\payments\bdd\PagamentoSteps.class
-br\com\fastfood\payments\gateways\repository\impl\PagamentoRepositoryGatewayIT.class
