@@ -16,8 +16,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 external:
   api:
-    url: http://localhost:8080/ #Aponta para a propria aplicação para simular o retorno do pagamento
-    endpoint: /fastfood/webhook/status-pagamento
+    url: http://localhost:8080/fastfood/webhook/status-pagamento
 server:
   servlet:
     context-path: /fastfood

@@ -1,0 +1,6 @@
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\test\java\br\com\fastfood\payments\bdd\CucumberTest.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\test\java\br\com\fastfood\payments\bdd\PagamentoSteps.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\test\java\br\com\fastfood\payments\gateways\repository\impl\PagamentoRepositoryGatewayIT.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\test\java\br\com\fastfood\payments\infra\controller\PagamentoControllerIT.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\test\java\br\com\fastfood\payments\infra\controller\StatusPagamentoWebhookControllerIT.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\test\java\br\com\fastfood\payments\usecases\PagamentoServiceImplTest.java

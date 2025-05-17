@@ -1,0 +1,13 @@
+br\com\fastfood\payments\infra\repository\JpaPagamentoRepository.class
+br\com\fastfood\payments\gateways\repository\impl\PagamentoRepositoryGateway.class
+br\com\fastfood\payments\gateways\repository\PagamentoGateway.class
+br\com\fastfood\payments\infra\dto\PagamentoDTO.class
+br\com\fastfood\payments\gateways\client\PagamentoClient.class
+br\com\fastfood\payments\infra\controller\PagamentoController.class
+br\com\fastfood\payments\usecases\impl\PagamentoServiceImpl.class
+br\com\fastfood\payments\infra\controller\StatusPagamentoWebhookController.class
+br\com\fastfood\payments\infra\enums\StatusPagamento.class
+br\com\fastfood\payments\domain\entities\PagamentoEntity.class
+br\com\fastfood\payments\infra\enums\FormaPagamento.class
+br\com\fastfood\payments\usecases\PagamentoService.class
+br\com\fastfood\payments\FastfoodApplication.class

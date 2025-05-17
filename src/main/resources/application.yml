@@ -18,8 +18,7 @@ spring:
     enabled: true
 external:
   api:
-    url: http://localhost:8080/ #Aponta para a propria aplicação para simular o retorno do pagamento
-    endpoint: ${PAGAMENTOAPI_URL}
+    url: ${PAGAMENTOAPI_URL}
 server:
   servlet:
     context-path: /fastfood

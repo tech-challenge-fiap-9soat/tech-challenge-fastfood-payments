@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: fastfood
+  datasource:
+    url: ${FASTFOOD_JDBC_URL}
+    username: ${FASTFOOD_DB_USER}
+    password: ${FASTFOOD_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+    enabled: true
+external:
+  api:
+    url: ${PAGAMENTOAPI_URL}
+server:
+  servlet:
+    context-path: /fastfood

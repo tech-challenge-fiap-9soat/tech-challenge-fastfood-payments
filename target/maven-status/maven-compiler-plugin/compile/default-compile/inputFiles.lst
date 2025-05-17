@@ -1,0 +1,13 @@
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\domain\entities\PagamentoEntity.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\FastfoodApplication.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\gateways\client\PagamentoClient.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\gateways\repository\impl\PagamentoRepositoryGateway.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\gateways\repository\PagamentoGateway.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\infra\controller\PagamentoController.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\infra\controller\StatusPagamentoWebhookController.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\infra\dto\PagamentoDTO.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\infra\enums\FormaPagamento.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\infra\enums\StatusPagamento.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\infra\repository\JpaPagamentoRepository.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\usecases\impl\PagamentoServiceImpl.java
+C:\Users\Samuel\Desktop\Study\FIAP\Challenges\Fase 4\tech-challenge-fastfood-payments\src\main\java\br\com\fastfood\payments\usecases\PagamentoService.java
