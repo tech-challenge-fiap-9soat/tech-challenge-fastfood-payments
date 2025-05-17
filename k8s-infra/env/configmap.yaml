@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: map-config
+  labels:
+    name: map-config
+data:
+  PAGAMENTOAPI_URL: "/fastfood/webhook/status-pagamento"
