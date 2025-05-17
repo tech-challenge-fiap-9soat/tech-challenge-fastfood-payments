@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastfood-payments-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastfood-payments
+  template:
+    metadata:
+      labels:
+        app: fastfood-payments
+    spec:
+      containers:
+        - name: fastfood-payments-pod
+          image: rm359211/fastfood-payments-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: FASTFOOD_JDBC_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secret-config
+                  key: FASTFOOD_JDBC_URL
+            - name: FASTFOOD_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret-config
+                  key: FASTFOOD_DB_USER
+            - name: FASTFOOD_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-config
+                  key: FASTFOOD_DB_PASSWORD
+            - name: PAGAMENTOAPI_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: map-config
+                  key: PAGAMENTOAPI_URL
+          resources:
+            requests:
+              cpu: 1m

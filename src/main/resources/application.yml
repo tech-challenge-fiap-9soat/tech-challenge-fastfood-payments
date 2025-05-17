@@ -13,9 +13,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yml
-    enabled: true
 external:
   api:
     url: ${PAGAMENTOAPI_URL}

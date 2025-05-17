@@ -1,0 +1,90 @@
+name: Deploy FastFood API
+
+on:
+  push:
+    branches:
+      - main  # Executa o pipeline apenas na branch main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'  # Agora está configurado para Java 21
+          distribution: 'temurin'
+
+      - name: Build com Maven
+        run: mvn clean install  # Compila o projeto e cria o JAR
+
+      - name: Login no Docker Hub
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Construir e enviar imagem para Docker Hub
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          VERSION=$(date +%s)  # Usa timestamp como versão da imagem
+          docker build -t rm359211/fastfood-payments-app:$VERSION .  # Build da imagem Docker
+          docker push rm359211/fastfood-payments-app:$VERSION       # Push para o Docker Hub
+          echo "IMAGE_VERSION=$VERSION" >> $GITHUB_ENV  # Salva a versão da imagem no ambiente do GitHub
+
+      - name: Conectar à EC2 e rodar os comandos do Kubernetes
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Clonar ou atualizar o repositório
+            if [ ! -d "/home/ubuntu/tech-challenge-fastfood-payments" ]; then
+              echo "Repositório não encontrado, fazendo clone..."
+              git clone https://github.com/tech-challenge-fiap-9soat/tech-challenge-fastfood-payments
+            else
+              echo "Repositório encontrado, fazendo pull..."
+              cd /home/ubuntu/tech-challenge-fastfood-payments && git pull origin main
+            fi
+
+            # Atualizar a imagem no Deployment com a nova versão
+            IMAGE_VERSION=${{ env.IMAGE_VERSION }}
+            echo "Atualizando fastfood-payments-deployment.yaml com a imagem rm359211/fastfood-payments-app:$IMAGE_VERSION"
+            sed -i 's|image: rm359211/fastfood-payments-app:.*|image: rm359211/fastfood-payments-app:'"$IMAGE_VERSION"'|' /home/ubuntu/tech-challenge-fastfood-payments/k8s-infra/fastfood-payments/fastfood-payments-deployment.yaml
+
+            # Verificar se o Kind está rodando
+            if ! kubectl cluster-info &> /dev/null; then
+              echo "Kind não encontrado ou não rodando, criando cluster..."
+              kind create cluster
+            else
+              echo "Kind encontrado e rodando."
+            fi
+
+            # Aplicar as configurações do Kubernetes
+            echo "Aplicando configurações do Kubernetes..."
+            cd /home/ubuntu/tech-challenge-fastfood-payments
+            kubectl apply -f k8s-infra/env/secret.yaml
+            kubectl apply -f k8s-infra/env/configmap.yaml
+            kubectl apply -f k8s-infra/db/postgresdb-statefulset.yaml
+            kubectl apply -f k8s-infra/db/postgresdb-service.yaml
+            kubectl apply -f k8s-infra/fastfood-payments/fastfood-payments-deployment.yaml
+            kubectl apply -f k8s-infra/fastfood-payments/fastfood-payments-service.yaml
+            kubectl apply -f k8s-infra/hpa/fastfood-payments-hpa.yaml
+
+            # Expor o serviço usando NodePort
+            echo "Expondo o serviço na porta 30001..."
+            kubectl patch service fastfood-payments-service -p '{"spec": {"type": "NodePort", "ports": [{"port": 8080, "targetPort": 8080, "nodePort": 30001}]}}'
+
+            # Verificar se o serviço está exposto corretamente
+            echo "Verificando se o serviço está exposto..."
+            kubectl get service fastfood-payments-service

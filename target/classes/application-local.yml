@@ -7,7 +7,6 @@ spring:
     password: 1234
     driver-class-name: org.postgresql.Driver
   jpa:
-    defer-initialization: true
     hibernate:
       ddl-auto: create-drop
     show-sql: true
