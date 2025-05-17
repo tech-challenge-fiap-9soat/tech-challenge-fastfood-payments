@@ -3,7 +3,7 @@ volumes:
 
 services:
   fastfood_app:
-    image: fastfood-app:1
+    image: fastfood-payments-app:1
     ports:
       - "8080:8080"
     restart: always
