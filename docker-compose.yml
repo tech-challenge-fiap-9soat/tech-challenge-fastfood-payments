@@ -8,7 +8,7 @@ services:
       - "8080:8080"
     restart: always
     environment:
-      FASTFOOD_DB_HOST: jdbc:postgresql://fastfood-db.cwurub6uddjh.us-east-1.rds.amazonaws.com:5432
+      FASTFOOD_DB_HOST: jdbc:postgresql://fastfood-payments-db.ccylhpejreyx.us-east-1.rds.amazonaws.com:5432
       FASTFOOD_DB_USER: postgres
       FASTFOOD_DB_PASSWORD: 1234
-      FASTFOOD_DB_NAME: fastfood
+      FASTFOOD_DB_NAME: payments

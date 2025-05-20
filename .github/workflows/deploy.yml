@@ -22,8 +22,24 @@ jobs:
           java-version: '21'  # Agora está configurado para Java 21
           distribution: 'temurin'
 
-      - name: Build com Maven
-        run: mvn clean install  # Compila o projeto e cria o JAR
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=tech-challenge-fiap-9soat_tech-challenge-fastfood-payments
 
       - name: Login no Docker Hub
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -75,8 +91,6 @@ jobs:
             cd /home/ubuntu/tech-challenge-fastfood-payments
             kubectl apply -f k8s-infra/env/secret.yaml
             kubectl apply -f k8s-infra/env/configmap.yaml
-            kubectl apply -f k8s-infra/db/postgresdb-statefulset.yaml
-            kubectl apply -f k8s-infra/db/postgresdb-service.yaml
             kubectl apply -f k8s-infra/fastfood-payments/fastfood-payments-deployment.yaml
             kubectl apply -f k8s-infra/fastfood-payments/fastfood-payments-service.yaml
             kubectl apply -f k8s-infra/hpa/fastfood-payments-hpa.yaml
