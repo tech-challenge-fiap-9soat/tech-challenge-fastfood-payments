@@ -5,4 +5,4 @@ metadata:
   labels:
     name: map-config
 data:
-  PAGAMENTOAPI_URL: "/fastfood/webhook/status-pagamento"
+  PAGAMENTOAPI_URL: "http://localhost:8080/fastfood/webhook/status-pagamento"
