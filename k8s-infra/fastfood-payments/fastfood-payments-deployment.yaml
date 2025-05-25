@@ -39,6 +39,16 @@ spec:
                 configMapKeyRef:
                   name: map-config
                   key: PAGAMENTOAPI_URL
+            - name: PEDIDOAPI_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: map-config
+                  key: PEDIDOAPI_URL
+            - name: CACHE_PEDIDOAPI_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: map-config
+                  key: CACHE_PEDIDOAPI_URL
           resources:
             requests:
               cpu: 1m
