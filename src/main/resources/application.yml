@@ -16,6 +16,11 @@ spring:
 external:
   api:
     url: ${PAGAMENTOAPI_URL}
+  order:
+    url: ${PEDIDOAPI_URL}
+  cache:
+    order:
+      url: ${CACHE_PEDIDOAPI_URL}
 server:
   servlet:
     context-path: /fastfood
