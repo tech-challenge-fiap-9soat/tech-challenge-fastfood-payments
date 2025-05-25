@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "cache-pedido-client", url = "${external.api.cache.order.url}")
+@FeignClient(name = "cache-pedido-client", url = "${external.cache.order.url}")
 public interface CachePedidosClient {
 
     @GetMapping(value = "/pedido/${idPedido}")

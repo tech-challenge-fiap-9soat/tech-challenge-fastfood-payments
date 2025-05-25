@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "pedido-client", url = "${external.api.order.url}")
+@FeignClient(name = "pedido-client", url = "${external.order.url}")
 public interface PedidoClient {
 
     @PatchMapping(value = "/pedido/proxima-operacao/${idPedido}")

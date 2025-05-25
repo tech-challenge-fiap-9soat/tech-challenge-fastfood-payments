@@ -16,6 +16,11 @@ spring:
 external:
   api:
     url: http://localhost:8080/fastfood/webhook/status-pagamento
+  order:
+    url: http://fastfoodapi-pedido-service:8080/fastfood
+  cache:
+    order:
+      url: http://fastfoodapi-producao-service:8080/fastfood
 server:
   servlet:
     context-path: /fastfood
