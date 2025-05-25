@@ -1,8 +1,11 @@
 package br.com.fastfood.payments.infra.controller;
 
 import br.com.fastfood.payments.domain.entities.PagamentoEntity;
+import br.com.fastfood.payments.gateways.client.CachePedidosClient;
 import br.com.fastfood.payments.gateways.client.PagamentoClient;
+import br.com.fastfood.payments.gateways.client.PedidoClient;
 import br.com.fastfood.payments.infra.dto.PagamentoDTO;
+import br.com.fastfood.payments.infra.dto.PedidoDTO;
 import br.com.fastfood.payments.infra.enums.FormaPagamento;
 import br.com.fastfood.payments.infra.enums.StatusPagamento;
 import br.com.fastfood.payments.infra.repository.JpaPagamentoRepository;
@@ -11,6 +14,7 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +23,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -28,6 +34,12 @@ class PagamentoControllerIT {
 
     @MockBean
     private PagamentoClient pagamentoClient;
+
+    @MockBean
+    private PedidoClient pedidoClient;
+
+    @MockBean
+    private CachePedidosClient cachePedidosClient;
 
     @LocalServerPort
     private int port;
@@ -48,7 +60,15 @@ class PagamentoControllerIT {
         dto.setValor(100.0);
         dto.setFormaPagamento(FormaPagamento.PIX);
 
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setId(2L);
+        pedidoDTO.setCpf("483.621.128.23");
+        pedidoDTO.setValorTotal(100.0);
+        pedidoDTO.setStatusPedido("RECEBIDO");
+
         doNothing().when(pagamentoClient).enviaPagamento(ArgumentMatchers.any());
+        doNothing().when(pedidoClient).updateStatusPedido(ArgumentMatchers.any());
+        when(cachePedidosClient.getPedido(any())).thenReturn(pedidoDTO);
 
         RestAssured.given()
                 .contentType(ContentType.JSON)

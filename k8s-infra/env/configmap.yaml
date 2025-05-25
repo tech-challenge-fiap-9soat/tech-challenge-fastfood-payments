@@ -6,3 +6,5 @@ metadata:
     name: map-config
 data:
   PAGAMENTOAPI_URL: "http://localhost:8080/fastfood/webhook/status-pagamento"
+  PEDIDOAPI_URL: "http://fastfoodapi-pedido-service:8080/fastfood"
+  CACHE_PEDIDOAPI_URL: "http://fastfoodapi-producao-service:8080/fastfood"
