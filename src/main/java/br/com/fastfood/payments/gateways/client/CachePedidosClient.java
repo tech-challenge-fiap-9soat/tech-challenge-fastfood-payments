@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "cache-pedido-client", url = "${external.cache.order.url}")
 public interface CachePedidosClient {
 
-    @GetMapping(value = "/pedido/${idPedido}")
+    @GetMapping(value = "/pedido/{idPedido}")
     PedidoDTO getPedido(@PathVariable Long idPedido);
 
 }
