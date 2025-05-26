@@ -21,4 +21,10 @@ public class PagamentoController {
     public ResponseEntity<String> consultarStatusPagamentoPedido(@PathVariable Long idPedido) {
         return pagamentoService.consultarStatusPagamentoPedido(idPedido);
     }
+
+    @GetMapping("/reset-db")
+    public void resetDb() {
+        pagamentoService.deleteAll();
+    }
+
 }
