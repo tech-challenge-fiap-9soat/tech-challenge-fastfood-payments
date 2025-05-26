@@ -44,6 +44,11 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
+    public void deleteAll(){
+        pagamentoGateway.deleteAll();
+    }
+
+    @Override
     public void fazPagamento(PagamentoDTO pagamento) {
         PedidoDTO pedido = cachePedidosClient.getPedido(pagamento.getIdPedido());
 
