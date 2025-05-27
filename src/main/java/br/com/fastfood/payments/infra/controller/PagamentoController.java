@@ -22,9 +22,4 @@ public class PagamentoController {
         return pagamentoService.consultarStatusPagamentoPedido(idPedido);
     }
 
-    @GetMapping("/reset-db")
-    public void resetDb() {
-        pagamentoService.deleteAll();
-    }
-
 }

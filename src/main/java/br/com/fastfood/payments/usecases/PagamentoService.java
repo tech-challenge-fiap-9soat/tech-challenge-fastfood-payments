@@ -9,7 +9,5 @@ public interface PagamentoService {
 
     void fazPagamento(PagamentoDTO pagamento);
 
-    void deleteAll();
-
     ResponseEntity<String> consultarStatusPagamentoPedido(Long idPedido);
 }

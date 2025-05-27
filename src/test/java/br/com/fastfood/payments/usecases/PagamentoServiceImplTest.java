@@ -1,12 +1,14 @@
 package br.com.fastfood.payments.usecases.impl;
 
 import br.com.fastfood.payments.domain.entities.PagamentoEntity;
+import br.com.fastfood.payments.domain.exception.BusinessException;
 import br.com.fastfood.payments.gateways.client.CachePedidosClient;
 import br.com.fastfood.payments.gateways.client.PagamentoClient;
 import br.com.fastfood.payments.gateways.client.PedidoClient;
 import br.com.fastfood.payments.gateways.repository.PagamentoGateway;
 import br.com.fastfood.payments.infra.dto.PagamentoDTO;
 import br.com.fastfood.payments.infra.dto.PedidoDTO;
+import br.com.fastfood.payments.infra.enums.ExceptionEnum;
 import br.com.fastfood.payments.infra.enums.FormaPagamento;
 import br.com.fastfood.payments.infra.enums.StatusPagamento;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
@@ -110,4 +113,28 @@ class PagamentoServiceImplTest {
         assertEquals(400, response.getStatusCodeValue());
         assertEquals("Não existe pagamento para este pedido", response.getBody());
     }
+
+    @Test
+    void deveLancarExcecaoQuandoValorPagamentoForDiferenteDoPedido() {
+        PagamentoDTO pagamentoDTO = new PagamentoDTO();
+        pagamentoDTO.setIdPedido(1L);
+        pagamentoDTO.setValor(100.0);
+        pagamentoDTO.setFormaPagamento(FormaPagamento.CREDITO);
+
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setId(1L);
+        pedidoDTO.setCpf("483.621.128.23");
+        pedidoDTO.setValorTotal(200.0); // <- Valor diferente!
+        pedidoDTO.setStatusPedido("RECEBIDO");
+
+        when(cachePedidosClient.getPedido(pagamentoDTO.getIdPedido())).thenReturn(pedidoDTO);
+
+        BusinessException exception = assertThrows(
+                BusinessException.class,
+                () -> pagamentoService.fazPagamento(pagamentoDTO)
+        );
+
+        assertEquals(ExceptionEnum.VALOR_INCORRETO, exception.getExceptionEnum());
+    }
+
 }

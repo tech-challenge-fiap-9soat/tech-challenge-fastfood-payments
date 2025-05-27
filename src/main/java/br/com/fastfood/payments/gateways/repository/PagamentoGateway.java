@@ -5,8 +5,6 @@ import br.com.fastfood.payments.domain.entities.PagamentoEntity;
 public interface PagamentoGateway {
     PagamentoEntity save(PagamentoEntity pagamento);
 
-    void deleteAll();
-
     boolean existsByPedidoIdAndPagamentoStatusAprovado(Long id);
 
     PagamentoEntity findByPedidoId(Long id);
