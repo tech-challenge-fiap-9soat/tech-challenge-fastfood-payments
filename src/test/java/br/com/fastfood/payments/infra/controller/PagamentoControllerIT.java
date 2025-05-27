@@ -112,4 +112,29 @@ class PagamentoControllerIT {
                 .statusCode(400)
                 .body(containsString("Não existe pagamento para este pedido"));
     }
+
+    @Test
+    void deveRetornarErro400QuandoValorDoPagamentoForIncorreto() {
+        PagamentoDTO dto = new PagamentoDTO();
+        dto.setIdPedido(3L);
+        dto.setValor(50.0); // valor diferente
+        dto.setFormaPagamento(FormaPagamento.PIX);
+
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setId(3L);
+        pedidoDTO.setCpf("483.621.128.23");
+        pedidoDTO.setValorTotal(100.0); // valor esperado
+        pedidoDTO.setStatusPedido("RECEBIDO");
+
+        when(cachePedidosClient.getPedido(any())).thenReturn(pedidoDTO);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(dto)
+                .when()
+                .post("/pagamento/pagar")
+                .then()
+                .statusCode(400)
+                .body(containsString("Valor do pagamento não é igual ao valor do pedido"));
+    }
 }

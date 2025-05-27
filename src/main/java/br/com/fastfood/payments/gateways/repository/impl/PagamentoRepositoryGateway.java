@@ -20,10 +20,6 @@ public class PagamentoRepositoryGateway implements PagamentoGateway {
         return pagamentoRepository.save(pagamento);
     }
 
-    public void deleteAll() {
-        pagamentoRepository.deleteAll();
-    }
-
     @Override
     public boolean existsByPedidoIdAndPagamentoStatusAprovado(Long id) {
         return pagamentoRepository.existsByPedidoIdAndStatus(id, StatusPagamento.APROVADO);
