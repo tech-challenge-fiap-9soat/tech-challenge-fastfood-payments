@@ -137,4 +137,37 @@ class PagamentoControllerIT {
                 .statusCode(400)
                 .body(containsString("Valor do pagamento não é igual ao valor do pedido"));
     }
+
+    @Test
+    void deveRetornarErro400QuandoPagamentoJaFoiRealizado() {
+        PagamentoDTO dto = new PagamentoDTO();
+        dto.setIdPedido(10L);
+        dto.setValor(120.0);
+        dto.setFormaPagamento(FormaPagamento.CREDITO);
+
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setId(10L);
+        pedidoDTO.setCpf("222.333.444-55");
+        pedidoDTO.setValorTotal(120.0);
+        pedidoDTO.setStatusPedido("RECEBIDO");
+
+        PagamentoEntity pagamentoExistente = new PagamentoEntity();
+        pagamentoExistente.setPedidoId(10L);
+        pagamentoExistente.setValor(120.0);
+        pagamentoExistente.setStatus(StatusPagamento.APROVADO);
+        pagamentoExistente.setFormaPagamento(FormaPagamento.CREDITO);
+
+        // Simula o pedido vindo do cache e um pagamento já salvo no banco
+        when(cachePedidosClient.getPedido(dto.getIdPedido())).thenReturn(pedidoDTO);
+        pagamentoRepository.save(pagamentoExistente);
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(dto)
+                .when()
+                .post("/pagamento/pagar")
+                .then()
+                .statusCode(400)
+                .body(containsString("Pagamento para este pedido já foi realizado"));
+    }
 }

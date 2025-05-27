@@ -137,4 +137,36 @@ class PagamentoServiceImplTest {
         assertEquals(ExceptionEnum.VALOR_INCORRETO, exception.getExceptionEnum());
     }
 
+    @Test
+    void deveLancarExcecaoQuandoPagamentoJaFoiRealizado() {
+        // Dado
+        PagamentoDTO pagamentoDTO = new PagamentoDTO();
+        pagamentoDTO.setIdPedido(5L);
+        pagamentoDTO.setValor(100.0);
+        pagamentoDTO.setFormaPagamento(FormaPagamento.DEBITO);
+
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setId(5L);
+        pedidoDTO.setCpf("111.222.333-44");
+        pedidoDTO.setValorTotal(100.0);
+        pedidoDTO.setStatusPedido("RECEBIDO");
+
+        PagamentoEntity pagamentoExistente = new PagamentoEntity();
+        pagamentoExistente.setPedidoId(5L);
+        pagamentoExistente.setValor(100.0);
+        pagamentoExistente.setStatus(StatusPagamento.APROVADO); // Já aprovado
+
+        // Quando
+        when(cachePedidosClient.getPedido(5L)).thenReturn(pedidoDTO);
+        when(pagamentoGateway.findByPedidoId(5L)).thenReturn(pagamentoExistente);
+
+        // Então
+        BusinessException exception = org.junit.jupiter.api.Assertions.assertThrows(
+                BusinessException.class,
+                () -> pagamentoService.fazPagamento(pagamentoDTO)
+        );
+
+        assertEquals("Pagamento para este pedido já foi realizado", exception.getMessage());
+    }
+
 }

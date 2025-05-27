@@ -51,6 +51,11 @@ public class PagamentoServiceImpl implements PagamentoService {
             throw new BusinessException(ExceptionEnum.VALOR_INCORRETO);
         }
 
+        PagamentoEntity existPagamento = pagamentoGateway.findByPedidoId(pedido.getId());
+        if (existPagamento != null && existPagamento.getStatus().equals(StatusPagamento.APROVADO)) {
+            throw new BusinessException(ExceptionEnum.PAGAMENTO_REALIZADO);
+        }
+
         PagamentoEntity pagamentoEntity = new PagamentoEntity();
         pagamentoEntity.setValor(pagamento.getValor());
         pagamentoEntity.setFormaPagamento(pagamento.getFormaPagamento());
